@@ -1,4 +1,4 @@
-import json, time, threading, psutil
+import json, time, threading, psutil, os
 from flask import Flask, render_template, Response, jsonify, request, send_from_directory
 
 app = Flask(__name__)
@@ -194,8 +194,9 @@ def api_stress():
     return jsonify({"status":"noop"})
 
 if __name__ == '__main__':
+    port = int(os.environ.get('PORT', 5000))
     print("="*50)
-    print("  SysVista v2.0 — HPC Monitoring Tool")
-    print("  Buka browser: http://localhost:5000")
+    print(f"  SysVista v2.0 — HPC Monitoring Tool")
+    print(f"  Buka browser: http://localhost:{port}")
     print("="*50)
-    app.run(debug=False, threaded=True, host='0.0.0.0', port=5000)
+    app.run(debug=False, threaded=True, host='0.0.0.0', port=port)
