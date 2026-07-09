@@ -1,0 +1,36 @@
+# Python / Flask
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.env
+.venv
+
+# IDE / Editor config
+.idea/
+.vscode/
+*.swp
+*.swo
+.project
+.pydevproject
+.settings/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Project specific ignores
+C.py
+C_*.py
+*.log
+*.csv
+.system_generated/
+scratch/
+task.md
+walkthrough.md
+implementation_plan.md
