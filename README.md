@@ -1,5 +1,7 @@
 # SysVista v2.0 — HPC Monitoring Tool
 
+**Link Live Aplikasi (PWA):** [https://vlahadiqa.pythonanywhere.com](https://vlahadiqa.pythonanywhere.com)
+
 **Mata Kuliah:** Komputasi Tingkat Tinggi (HPC)  
 **Dosen:** Lukman Hakim, ST. MT  
 **Universitas Muhammadiyah Surabaya — Teknik Informatika**
@@ -8,9 +10,10 @@
 
 ## Deskripsi
 
-SysVista adalah aplikasi *monitoring tool* berbasis web yang memantau penggunaan sumber daya komputer secara *real-time* saat sistem menjalankan berbagai beban kerja komputasi.
+SysVista adalah aplikasi *monitoring tool* berbasis web dan **PWA (Progressive Web App)** yang memantau penggunaan sumber daya komputer secara *real-time* saat sistem menjalankan berbagai beban kerja komputasi.
 
 ## Fitur v2.0
+
 
 | Fitur | Deskripsi |
 |-------|-----------|
@@ -22,6 +25,9 @@ SysVista adalah aplikasi *monitoring tool* berbasis web yang memantau penggunaan
 | 📥 Export CSV | Download log data metrik selama sesi berjalan untuk keperluan analisis/makalah |
 | 📊 Grafik Live | Tren 60 detik untuk CPU, RAM, Read/Write Disk |
 | 🔍 Proses Aktif | Top 10 proses dengan CPU%, memory, dan status badge |
+| 📱 PWA (Progressive Web App) | Dapat diinstal langsung di laptop/HP dan dijalankan secara standalone |
+| 🛡️ AJAX Polling Fallback | Otomatis beralih ke polling AJAX jika koneksi SSE terhambat di server cloud |
+
 
 ## Tech Stack
 
