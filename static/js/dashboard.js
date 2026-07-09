@@ -353,10 +353,41 @@ function setLiveStatus(isLive) {
   }
 }
 
-// ── SSE ───────────────────────────────────────────────
+// ── SSE with AJAX Polling Fallback ───────────────────
+let pollInterval = null;
+let usePolling = false;
+
+function startPolling() {
+  if (pollInterval) return; // Already polling
+  usePolling = true;
+  console.log('[SSE] Switching to AJAX polling fallback...');
+  pollInterval = setInterval(() => {
+    fetch('/api/metrics')
+      .then(r => r.json())
+      .then(d => {
+        render(d);
+        setLiveStatus(true);
+      })
+      .catch(err => {
+        console.error('[Polling] Error fetching metrics:', err);
+        setLiveStatus(false);
+      });
+  }, 2000);
+}
+
 function connect() {
+  if (usePolling) return;
   const es = new EventSource('/api/stream');
+  
+  // Timeout connection attempt after 5 seconds of no data
+  let connectionTimeout = setTimeout(() => {
+    console.warn('[SSE] Connection timeout. Falling back to polling.');
+    es.close();
+    startPolling();
+  }, 5000);
+
   es.onmessage = e => {
+    clearTimeout(connectionTimeout);
     try {
       const d = JSON.parse(e.data);
       if (!d.error) {
@@ -369,10 +400,13 @@ function connect() {
       setLiveStatus(false);
     }
   };
+
   es.onerror   = () => {
+    clearTimeout(connectionTimeout);
     es.close();
     setLiveStatus(false);
-    setTimeout(connect, 3000);
+    // Fall back to polling immediately if EventSource fails
+    startPolling();
   };
 }
 
@@ -381,11 +415,14 @@ fetch('/api/metrics')
   .then(d => {
     render(d);
     setLiveStatus(true);
+    // Try to connect SSE
+    connect();
   })
   .catch(err => {
-    console.error(err);
+    console.error('[Initial Fetch] Error:', err);
     setLiveStatus(false);
+    // If initial fetch succeeds but SSE fails, or even if initial fetch fails, start polling
+    startPolling();
   });
 
-connect();
 
